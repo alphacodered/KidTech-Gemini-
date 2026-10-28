@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+<html lang="ms" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kexpert | Web Developer & KidJoy Storyteller</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        fredoka: ['Fredoka', 'sans-serif'],
+                        poppins: ['Poppins', 'sans-serif'],
+                        jakarta: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        kexpert: {
+                            yellow: '#FFB800',
+                            orange: '#FF5722',
+                            pink: '#E91E63',
+                            purple: '#9C27B0',
+                            blue: '#0288D1',
+                            green: '#4CAF50',
+                            darkBg: '#0F172A',
+                            darkCard: '#1E293B',
+                        }
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'bounce-gentle': 'bounceGentle 2s infinite',
+                        'pulse-glow': 'pulseGlow 2.5s infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
+                            '50%': { transform: 'translateY(-15px) rotate(3deg)' },
+                        },
+                        bounceGentle: {
+                            '0%, 100%': { transform: 'translateY(-4%)' },
+                            '50%': { transform: 'translateY(0)' },
+                        },
+                        pulseGlow: {
+                            '0%, 100%': { opacity: '0.8', transform: 'scale(1)' },
+                            '50%': { opacity: '1', transform: 'scale(1.05)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Styles & Gradient Typography */
+        body {
+            font-family: 'Poppins', sans-serif;
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
+
+        .heading-font {
+            font-family: 'Fredoka', cursive, sans-serif;
+        }
+
+        /* Vibrant Gradient Text Variations */
+        .gradient-text-sunset {
+            background: linear-gradient(135deg, #FF512F 0%, #DD2476 50%, #FFB800 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .gradient-text-ocean {
+            background: linear-gradient(135deg, #00C6FF 0%, #0072FF 50%, #4CAF50 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .gradient-text-magic {
+            background: linear-gradient(135deg, #8A2387 0%, #E94057 50%, #F27121 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Background Animated Gradients */
+        .bg-light-playful {
+            background: radial-gradient(circle at 10% 20%, #FFFBEB 0%, #FEF3C7 35%, #EFF6FF 70%, #F0FDF4 100%);
+        }
+
+        .bg-dark-cyber {
+            background: radial-gradient(circle at 20% 20%, #0F172A 0%, #1E1B4B 45%, #0B0F19 100%);
+        }
+
+        /* Glassmorphism Card */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
+        .dark .glass-card {
+            background: rgba(30, 41, 59, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        /* Ripple Effect on Button */
+        .btn-ripple {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            transform: scale(0);
+            animation: ripple-anim 0.6s linear;
+            background-color: rgba(255, 255, 255, 0.4);
+        }
+
+        @keyframes ripple-anim {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        /* Canvas Overlay */
+        #bgCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F1F5F9;
+        }
+        .dark ::-webkit-scrollbar-track {
+            background: #0F172A;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #F59E0B;
+            border-radius: 999px;
+        }
+    </style>
+</head>
+
+<body class="bg-light-playful text-slate-800 dark:bg-dark-cyber dark:text-slate-100 min-h-screen relative overflow-x-hidden">
+
+    <!-- Interactive Canvas Particles Background -->
+    <canvas id="bgCanvas"></canvas>
+
+    <!-- Navigation Header -->
+    <nav class="sticky top-0 z-50 transition-all duration-300 glass-card shadow-sm py-3 px-4 sm:px-8">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="#hero" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-amber-400 to-orange-500 flex items-center justify-center text-white text-xl font-bold shadow-md shadow-orange-500/30 group-hover:rotate-12 transition-transform duration-300">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <div class="flex flex-col">
+                    <span class="heading-font text-2xl font-bold tracking-wide gradient-text-sunset">Kexpert</span>
+                    <span class="text-[10px] font-semibold text-slate-500 dark:text-slate-400 -mt-1 tracking-widest uppercase">KidJoy Tech & Stories</span>
+                </div>
+            </a>
+
+            <!-- Desktop Menu Links -->
+            <div class="hidden md:flex items-center gap-6 font-medium text-sm">
+                <a href="#about" class="hover:text-amber-500 transition-colors">Perihal</a>
+                <a href="#stories" class="hover:text-amber-500 transition-colors">Galeri Cerita</a>
+                <a href="#skills" class="hover:text-amber-500 transition-colors">Kemahiran</a>
+                <a href="#playground" class="hover:text-amber-500 transition-colors">JS Playground</a>
+                <a href="#projects" class="hover:text-amber-500 transition-colors">Projek Web</a>
+                <a href="#contact" class="hover:text-amber-500 transition-colors">Hubungi</a>
+            </div>
+
+            <!-- Controls (Theme Toggle + Sound FX Toggle) -->
+            <div class="flex items-center gap-3">
+                <!-- Sound Toggle -->
+                <button id="soundToggleBtn" onclick="toggleSoundEffect()" class="w-10 h-10 rounded-xl bg-amber-100 dark:bg-slate-800 text-amber-600 dark:text-amber-400 flex items-center justify-center hover:scale-105 transition-all shadow-sm" title="Toggle Sound FX">
+                    <i id="soundIcon" class="fa-solid fa-volume-high"></i>
+                </button>
+
+                <!-- Theme Toggle -->
+                <button id="themeToggleBtn" onclick="toggleTheme()" class="w-10 h-10 rounded-xl bg-amber-400 text-slate-900 flex items-center justify-center hover:rotate-45 transition-all duration-300 shadow-md shadow-amber-500/20" title="Tukar Tema">
+                    <i id="themeIcon" class="fa-solid fa-sun"></i>
+                </button>
+
+                <!-- Mobile Hamburger Menu Button -->
+                <button onclick="toggleMobileMenu()" class="md:hidden w-10 h-10 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-200 flex items-center justify-center">
+                    <i class="fa-solid fa-bars text-lg"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Drawer -->
+        <div id="mobileDrawer" class="hidden md:hidden flex-col gap-3 mt-4 pt-4 border-t border-slate-200 dark:border-slate-800 text-center font-medium">
+            <a href="#about" onclick="toggleMobileMenu()" class="py-2 hover:bg-amber-50 dark:hover:bg-slate-800 rounded-lg">Perihal</a>
+            <a href="#stories" onclick="toggleMobileMenu()" class="py-2 hover:bg-amber-50 dark:hover:bg-slate-800 rounded-lg">Galeri Cerita</a>
+            <a href="#skills" onclick="toggleMobileMenu()" class="py-2 hover:bg-amber-50 dark:hover:bg-slate-800 rounded-lg">Kemahiran</a>
+            <a href="#playground" onclick="toggleMobileMenu()" class="py-2 hover:bg-amber-50 dark:hover:bg-slate-800 rounded-lg">JS Playground</a>
+            <a href="#projects" onclick="toggleMobileMenu()" class="py-2 hover:bg-amber-50 dark:hover:bg-slate-800 rounded-lg">Projek Web</a>
+            <a href="#contact" onclick="toggleMobileMenu()" class="py-2 hover:bg-amber-50 dark:hover:bg-slate-800 rounded-lg">Hubungi</a>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section id="hero" class="relative pt-12 pb-20 px-4 sm:px-8 max-w-7xl mx-auto min-h-[85vh] flex items-center z-10">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center w-full">
+            
+            <!-- Left Column: Content Header & Intro -->
+            <div class="lg:col-span-7 flex flex-col items-start gap-6">
+                <!-- Floating Badge -->
+                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-100 dark:bg-amber-900/40 text-amber-800 dark:text-amber-300 text-xs sm:text-sm font-semibold border border-amber-300 dark:border-amber-700/50 shadow-sm animate-bounce-gentle">
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
+                    <span>Selamat Datang ke Dunia Kexpert KidJoy!</span>
+                </div>
+
+                <!-- Main Gradient Title -->
+                <h1 class="heading-font text-4xl sm:text-6xl lg:text-7xl font-extrabold leading-tight tracking-tight">
+                    Mengisahkan <span class="gradient-text-sunset">Cerita Murni</span> dengan <span class="gradient-text-ocean">Kod Interaktif</span>.
+                </h1>
+
+                <!-- Typewriter Dynamic Role -->
+                <div class="text-lg sm:text-2xl font-bold text-slate-600 dark:text-slate-300 flex items-center gap-2 h-10">
+                    <span>Saya seorang:</span>
+                    <span id="typewriterText" class="gradient-text-magic font-extrabold border-b-4 border-amber-400"></span>
+                </div>
+
+                <p class="text-slate-600 dark:text-slate-300 text-base sm:text-lg leading-relaxed max-w-2xl">
+                    Gabungan kemahiran pembangunan web moden (**HTML, CSS, JavaScript, Bootstrap**) dan rekaan naratif kreatif kanak-kanak. Terkenal dengan siri kraf cerita klasik seperti **"Sang Kancil & Sang Buaya"**!
+                </p>
+
+                <!-- Call To Action Buttons -->
+                <div class="flex flex-wrap items-center gap-4 pt-2">
+                    <a href="#stories" onclick="playClickSound()" class="btn-ripple px-7 py-3.5 rounded-2xl bg-gradient-to-r from-amber-500 to-orange-500 text-white font-bold text-base shadow-lg shadow-orange-500/30 hover:scale-105 active:scale-95 transition-all flex items-center gap-2">
+                        <i class="fa-solid fa-book-open"></i>
+                        <span>Terokai Cerita</span>
+                    </a>
+                    <a href="#playground" onclick="playClickSound()" class="btn-ripple px-7 py-3.5 rounded-2xl bg-white dark:bg-slate-800 border-2 border-amber-400 text-amber-600 dark:text-amber-400 font-bold text-base shadow-md hover:bg-amber-50 dark:hover:bg-slate-700 hover:scale-105 active:scale-95 transition-all flex items-center gap-2">
+                        <i class="fa-solid fa-gamepad"></i>
+                        <span>Cuba JS Game</span>
+                    </a>
+                </div>
+
+                <!-- Quick Stats / Badges -->
+                <div class="grid grid-cols-3 gap-4 pt-6 w-full max-w-lg border-t border-slate-200 dark:border-slate-800">
+                    <div>
+                        <h4 class="heading-font text-2xl font-bold text-amber-500">2+ Part</h4>
+                        <p class="text-xs text-slate-500 dark:text-slate-400">Siri Kancil Story</p>
+                    </div>
+                    <div>
+                        <h4 class="heading-font text-2xl font-bold text-emerald-500">100%</h4>
+                        <p class="text-xs text-slate-500 dark:text-slate-400">JS Responsive</p>
+                    </div>
+                    <div>
+                        <h4 class="heading-font text-2xl font-bold text-purple-500">KidJoy</h4>
+                        <p class="text-xs text-slate-500 dark:text-slate-400">Pendidikan Murni</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Interactive Profile Avatar Card -->
+            <div class="lg:col-span-5 flex justify-center">
+                <div class="relative w-full max-w-md">
+                    <!-- Decorative Glowing Circles -->
+                    <div class="absolute -top-6 -left-6 w-40 h-40 bg-amber-400/30 rounded-full filter blur-2xl animate-pulse"></div>
+                    <div class="absolute -bottom-6 -right-6 w-40 h-40 bg-orange-500/30 rounded-full filter blur-2xl animate-pulse"></div>
+
+                    <!-- Main Avatar Card -->
+                    <div class="relative glass-card rounded-3xl p-6 sm:p-8 shadow-2xl border-2 border-amber-200 dark:border-slate-700 text-center flex flex-col items-center gap-4 animate-float">
+                        <!-- Profile Image Avatar -->
+                        <div class="relative group">
+                            <div class="w-36 h-36 sm:w-44 sm:h-44 rounded-full p-2 bg-gradient-to-tr from-amber-400 via-orange-500 to-pink-500 shadow-xl overflow-hidden">
+                                <img src="https://placehold.co/400x400/2A2D34/FFF?text=Kexpert+Avatar" alt="Kexpert Avatar" class="w-full h-full object-cover rounded-full group-hover:scale-110 transition-transform duration-500">
+                            </div>
+                            <span class="absolute bottom-2 right-2 w-6 h-6 rounded-full bg-emerald-500 border-4 border-white dark:border-slate-800" title="Status: Online & Ready"></span>
+                        </div>
+
+                        <!-- Info Details -->
+                        <div>
+                            <h3 class="heading-font text-2xl font-bold text-slate-800 dark:text-white">Kexpert Creator</h3>
+                            <p class="text-sm text-amber-600 dark:text-amber-400 font-semibold">Web Developer & Kid Storytelling Specialist</p>
+                        </div>
+
+                        <!-- Interactive Social Pills -->
+                        <div class="flex items-center gap-3 pt-2">
+                            <a href="https://github.com/alphacodered" target="_blank" onclick="playClickSound()" class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-700 text-slate-800 dark:text-white flex items-center justify-center hover:bg-amber-400 hover:text-slate-900 transition-all shadow" title="GitHub @alphacodered">
+                                <i class="fa-brands fa-github text-lg"></i>
+                            </a>
+                            <button onclick="copyToClipboard('https://github.com/alphacodered', 'Pautan GitHub berjaya disalin!')" class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-700 text-slate-800 dark:text-white flex items-center justify-center hover:bg-amber-400 hover:text-slate-900 transition-all shadow" title="Salin Pautan GitHub">
+                                <i class="fa-solid fa-copy text-sm"></i>
+                            </button>
+                            <a href="#contact" onclick="playClickSound()" class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-700 text-slate-800 dark:text-white flex items-center justify-center hover:bg-amber-400 hover:text-slate-900 transition-all shadow" title="Emel Me">
+                                <i class="fa-solid fa-envelope text-sm"></i>
+                            </a>
+                        </div>
+
+                        <!-- Live Status Banner -->
+                        <div class="w-full bg-amber-50 dark:bg-slate-800/80 rounded-2xl p-3 border border-amber-200/50 dark:border-slate-700 text-xs text-slate-600 dark:text-slate-300 flex items-center justify-between">
+                            <span class="flex items-center gap-1.5 font-medium">
+                                <i class="fa-solid fa-bolt text-amber-500"></i> Github ID:
+                            </span>
+                            <span class="font-mono font-bold bg-amber-200 dark:bg-slate-700 px-2 py-0.5 rounded text-slate-800 dark:text-amber-300">@alphacodered</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SECTION 2: INTERACTIVE STORY CORNER (Sang Kancil & Sang Buaya) -->
+    <section id="stories" class="py-20 px-4 sm:px-8 max-w-7xl mx-auto relative z-10">
+        <div class="text-center max-w-3xl mx-auto mb-12">
+            <span class="px-4 py-1.5 rounded-full bg-orange-100 dark:bg-orange-900/40 text-orange-700 dark:text-orange-300 text-xs font-bold uppercase tracking-wider">Showcase Penceritaan</span>
+            <h2 class="heading-font text-3xl sm:text-5xl font-extrabold mt-3 gradient-text-sunset">Sang Kancil & Sang Buaya Saga</h2>
+            <p class="text-slate-600 dark:text-slate-300 text-sm sm:text-base mt-2">
+                Terokai naratif berganda dwibahasa (Bahasa Melayu & English) berserta modul adegan interaktif.
+            </p>
+        </div>
+
+        <!-- Interactive Story Card Reader -->
+        <div class="glass-card rounded-3xl p-6 sm:p-10 shadow-xl border border-slate-200 dark:border-slate-800 max-w-5xl mx-auto">
+            
+            <!-- Controls Bar: Part Switcher & Language Switcher -->
+            <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-200 dark:border-slate-700 pb-6 mb-6">
+                <!-- Part Selector -->
+                <div class="flex items-center gap-2 bg-slate-100 dark:bg-slate-800 p-1.5 rounded-2xl">
+                    <button id="part1Btn" onclick="switchStoryPart(1)" class="px-5 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all bg-amber-500 text-white shadow-md">
+                        Part 1: Menyeberang Sungai
+                    </button>
+                    <button id="part2Btn" onclick="switchStoryPart(2)" class="px-5 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all text-slate-600 dark:text-slate-300 hover:text-amber-500">
+                        Part 2: Dendam & Dusun Buah
+                    </button>
+                </div>
+
+                <!-- Language Switcher -->
+                <div class="flex items-center gap-2">
+                    <span class="text-xs font-semibold text-slate-500 dark:text-slate-400">Bahasa:</span>
+                    <button id="langMalayBtn" onclick="switchStoryLang('ms')" class="px-3 py-1.5 rounded-lg text-xs font-bold border-2 border-amber-500 bg-amber-500 text-white">
+                        Bahasa Melayu
+                    </button>
+                    <button id="langEngBtn" onclick="switchStoryLang('en')" class="px-3 py-1.5 rounded-lg text-xs font-bold border-2 border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-amber-400">
+                        English
+                    </button>
+                </div>
+            </div>
+
+            <!-- Main Story Content Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                <!-- Visual Illustration Banner -->
+                <div class="lg:col-span-5 flex flex-col items-center">
+                    <div class="relative w-full h-64 sm:h-80 rounded-2xl overflow-hidden shadow-md group border-2 border-amber-300/60">
+                        <img id="storyImage" src="https://placehold.co/600x400/2A2D34/FFF?text=Sang+Kancil+Part+1" alt="Story Illustration" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex items-end p-4">
+                            <span id="storyCaption" class="text-white text-xs sm:text-sm font-medium">Sang Kancil memperdayakan buaya dengan kiraan Raja Sulaiman.</span>
+                        </div>
+                    </div>
+                    <!-- Audio Speak Simulation Button -->
+                    <button onclick="speakStoryText()" class="mt-4 px-5 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs sm:text-sm flex items-center gap-2 shadow-md hover:scale-105 transition-all">
+                        <i class="fa-solid fa-volume-high"></i>
+                        <span>Baca Teks Cerita (TTS Simulation)</span>
+                    </button>
+                </div>
+
+                <!-- Story Text Reader Body -->
+                <div class="lg:col-span-7 flex flex-col justify-between h-full space-y-4">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 id="storyDisplayTitle" class="heading-font text-2xl sm:text-3xl font-bold text-slate-800 dark:text-white">
+                                The Clever Mouse Deer & The Silly Crocodiles
+                            </h3>
+                            <span id="sceneBadge" class="px-3 py-1 bg-amber-100 dark:bg-amber-900/50 text-amber-800 dark:text-amber-300 rounded-full text-xs font-extrabold">
+                                Adegan 1 / 3
+                            </span>
+                        </div>
+                        <div id="storyBox" class="bg-amber-50/60 dark:bg-slate-800/60 p-5 rounded-2xl border border-amber-200/50 dark:border-slate-700 min-h-[180px] text-slate-700 dark:text-slate-200 text-sm sm:text-base leading-relaxed">
+                            <!-- Injected JS text -->
+                        </div>
+                    </div>
+
+                    <!-- Interactive Dialogue Highlights -->
+                    <div class="p-4 rounded-xl bg-slate-100 dark:bg-slate-800 border-l-4 border-amber-500 text-xs sm:text-sm italic text-slate-600 dark:text-slate-300">
+                        <strong class="not-italic text-amber-600 dark:text-amber-400">Dialog Ikonik:</strong>
+                        <span id="dialogueQuote">"Satu, dua, tiga lekuk, jantan betina aku ketuk!"</span>
+                    </div>
+
+                    <!-- Pagination Controls -->
+                    <div class="flex items-center justify-between pt-2">
+                        <button onclick="prevStoryScene()" class="px-4 py-2 rounded-xl bg-slate-200 dark:bg-slate-700 hover:bg-amber-400 hover:text-slate-900 font-bold text-xs sm:text-sm transition-all flex items-center gap-1">
+                            <i class="fa-solid fa-arrow-left"></i> Adegan Sebelum
+                        </button>
+                        <div class="flex gap-1.5" id="sceneDots">
+                            <!-- Dots injected dynamically -->
+                        </div>
+                        <button onclick="nextStoryScene()" class="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs sm:text-sm transition-all flex items-center gap-1 shadow-md">
+                            Adegan Seterusnya <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SECTION 3: SKILLS & TOOLS (Interactive Filter) -->
+    <section id="skills" class="py-20 px-4 sm:px-8 max-w-7xl mx-auto relative z-10">
+        <div class="text-center max-w-3xl mx-auto mb-12">
+            <span class="px-4 py-1.5 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 text-xs font-bold uppercase tracking-wider">Kecekapan Teknikal</span>
+            <h2 class="heading-font text-3xl sm:text-5xl font-extrabold mt-3 gradient-text-ocean">Kemahiran & Stack Web</h2>
+            <p class="text-slate-600 dark:text-slate-300 text-sm sm:text-base mt-2">
+                Teknologi yang digunakan untuk membina pengalaman web interaktif dan aplikasi cerita.
+            </p>
+        </div>
+
+        <!-- Filter Buttons -->
+        <div class="flex flex-wrap justify-center gap-3 mb-10">
+            <button onclick="filterSkills('all')" class="skill-filter-btn px-5 py-2 rounded-2xl text-xs sm:text-sm font-bold bg-amber-500 text-white shadow-md transition-all">Semua</button>
+            <button onclick="filterSkills('frontend')" class="skill-filter-btn px-5 py-2 rounded-2xl text-xs sm:text-sm font-bold bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-amber-400 transition-all">Frontend Web</button>
+            <button onclick="filterSkills('tools')" class="skill-filter-btn px-5 py-2 rounded-2xl text-xs sm:text-sm font-bold bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-amber-400 transition-all">Tools & Git</button>
+            <button onclick="filterSkills('story')" class="skill-filter-btn px-5 py-2 rounded-2xl text-xs sm:text-sm font-bold bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-amber-400 transition-all">Naratif & Reka Bentuk</button>
+        </div>
+
+        <!-- Skills Grid Cards -->
+        <div id="skillsContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Items injected dynamically via JS for full reactivity -->
+        </div>
+    </section>
+
+    <!-- SECTION 4: INTERACTIVE JS PLAYGROUND (Kancil River Puzzle Game) -->
+    <section id="playground" class="py-20 px-4 sm:px-8 max-w-7xl mx-auto relative z-10">
+        <div class="glass-card rounded-3xl p-6 sm:p-10 shadow-2xl border-2 border-amber-400/50 dark:border-amber-500/30">
+            <div class="text-center max-w-2xl mx-auto mb-8">
+                <span class="px-4 py-1.5 rounded-full bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 text-xs font-bold uppercase tracking-wider">Live JS Mini-Game</span>
+                <h2 class="heading-font text-3xl sm:text-4xl font-extrabold mt-2 gradient-text-magic">Teka-Teki Jambatan Sang Kancil</h2>
+                <p class="text-slate-600 dark:text-slate-300 text-sm mt-1">
+                    Bantu Sang Kancil menyusun buaya secara nombor berurutan supaya Kancil boleh melompat menyeberangi sungai dengan selamat!
+                </p>
+            </div>
+
+            <!-- Game Board Container -->
+            <div class="bg-gradient-to-b from-sky-200 to-blue-400 dark:from-slate-900 dark:to-blue-950 p-6 rounded-2xl shadow-inner relative overflow-hidden">
+                <!-- River Visual FX -->
+                <div class="flex justify-between items-center mb-6">
+                    <div class="bg-amber-100 dark:bg-slate-800 p-3 rounded-xl border border-amber-300 text-xs font-bold">
+                        <span>Tebing Mula 📍</span>
+                    </div>
+                    <div id="gameStatus" class="bg-white/90 dark:bg-slate-800/90 px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold text-amber-600 dark:text-amber-400 shadow">
+                        Klik pada buaya mengikut urutan nombor (1 hingga 5)!
+                    </div>
+                    <div class="bg-emerald-100 dark:bg-slate-800 p-3 rounded-xl border border-emerald-300 text-xs font-bold">
+                        <span>Tebing Seberang 🏁</span>
+                    </div>
+                </div>
+
+                <!-- Crocodiles Row Game Container -->
+                <div id="crocRiverRow" class="flex flex-wrap justify-center items-center gap-4 py-8 min-h-[160px]">
+                    <!-- Injected via JavaScript -->
+                </div>
+
+                <!-- Reset & Action Controls -->
+                <div class="flex items-center justify-center gap-4 mt-4">
+                    <button onclick="initRiverPuzzle()" class="px-6 py-2.5 rounded-xl bg-slate-900 text-white font-bold text-xs sm:text-sm hover:bg-slate-800 shadow transition-all">
+                        <i class="fa-solid fa-rotate-right"></i> Susun Semula Buaya
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 5: PROJECTS GALLERY (Filterable Web Apps & Stories) -->
+    <section id="projects" class="py-20 px-4 sm:px-8 max-w-7xl mx-auto relative z-10">
+        <div class="text-center max-w-3xl mx-auto mb-12">
+            <span class="px-4 py-1.5 rounded-full bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300 text-xs font-bold uppercase tracking-wider">Hasil Kerja</span>
+            <h2 class="heading-font text-3xl sm:text-5xl font-extrabold mt-3 gradient-text-sunset">Galeri Projek Kexpert</h2>
+            <p class="text-slate-600 dark:text-slate-300 text-sm sm:text-base mt-2">
+                Siri aplikasi web, kraf interaktif, dan animasi cerita kanak-kanak.
+            </p>
+        </div>
+
+        <!-- Project Cards Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            
+            <!-- Project 1 -->
+            <div class="glass-card rounded-3xl overflow-hidden shadow-lg border border-slate-200 dark:border-slate-800 flex flex-col group hover:-translate-y-2 transition-all duration-300">
+                <div class="relative h-48 overflow-hidden bg-amber-100">
+                    <img src="https://placehold.co/600x400/FFB800/000?text=Kancil+River+Interactive" alt="Kancil App" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    <span class="absolute top-3 right-3 px-3 py-1 rounded-full bg-amber-500 text-white text-xs font-bold shadow">Interactive Web App</span>
+                </div>
+                <div class="p-6 flex flex-col justify-between flex-grow space-y-4">
+                    <div>
+                        <h3 class="heading-font text-xl font-bold text-slate-800 dark:text-white">Sang Kancil & Buaya Reader</h3>
+                        <p class="text-slate-600 dark:text-slate-300 text-xs sm:text-sm mt-2">
+                            Aplikasi bacaan dwibahasa untuk kanak-kanak dengan kawalan audio TTS dan animasi adegan.
+                        </p>
+                    </div>
+                    <div class="flex flex-wrap gap-2 text-[11px] font-bold">
+                        <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300">JavaScript DOM</span>
+                        <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300">Tailwind CSS</span>
+                        <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300">Speech API</span>
+                    </div>
+                    <button onclick="openModal('Sang Kancil & Buaya Reader', 'Aplikasi penceritaan dwibahasa interaktif lengkap dengan fungsi audio simulated, penukar bahasa Bahasa Melayu/Inggeris, serta teka-teki logik terbina dalam.')" class="w-full py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs transition-all shadow">
+                        Lihat Perincian Projek
+                    </button>
+                </div>
+            </div>
+
+            <!-- Project 2 -->
+            <div class="glass-card rounded-3xl overflow-hidden shadow-lg border border-slate-200 dark:border-slate-800 flex flex-col group hover:-translate-y-2 transition-all duration-300">
+                <div class="relative h-48 overflow-hidden bg-blue-100">
+                    <img src="https://placehold.co/600x400/0288D1/FFF?text=KidJoy+Coloring+Studio" alt="Coloring App" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    <span class="absolute top-3 right-3 px-3 py-1 rounded-full bg-blue-500 text-white text-xs font-bold shadow">HTML5 Canvas</span>
+                </div>
+                <div class="p-6 flex flex-col justify-between flex-grow space-y-4">
+                    <div>
+                        <h3 class="heading-font text-xl font-bold text-slate-800 dark:text-white">Studio Mewarna Digital</h3>
+                        <p class="text-slate-600 dark:text-slate-300 text-xs sm:text-sm mt-2">
+                            Papan mewarna kanvas bertema haiwan rimba untuk mengasah kreativiti kanak-kanak secara dalam talian.
+                        </p>
+                    </div>
+                    <div class="flex flex-wrap gap-2 text-[11px] font-bold">
+                        <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300">HTML Canvas</span>
+                        <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300">Touch Events</span>
+                    </div>
+                    <button onclick="openModal('Studio Mewarna Digital', 'Projek kanvas interaktif yang membolehkan kanak-kanak memilih palet warna gradient, melukis watak haiwan rimba, dan memuat turun hasil karya mereka.')" class="w-full py-2.5 rounded-xl bg-blue-500 hover:bg-blue-600 text-white font-bold text-xs transition-all shadow">
+                        Lihat Perincian Projek
+                    </button>
+                </div>
+            </div>
+
+            <!-- Project 3 -->
+            <div class="glass-card rounded-3xl overflow-hidden shadow-lg border border-slate-200 dark:border-slate-800 flex flex-col group hover:-translate-y-2 transition-all duration-300">
+                <div class="relative h-48 overflow-hidden bg-purple-100">
+                    <img src="https://placehold.co/600x400/9C27B0/FFF?text=Bootstrap+Kid+Dashboard" alt="Dashboard App" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    <span class="absolute top-3 right-3 px-3 py-1 rounded-full bg-purple-500 text-white text-xs font-bold shadow">Bootstrap 5</span>
+                </div>
+                <div class="p-6 flex flex-col justify-between flex-grow space-y-4">
+                    <div>
+                        <h3 class="heading-font text-xl font-bold text-slate-800 dark:text-white">Portal Pembelajaran Kexpert</h3>
+                        <p class="text-slate-600 dark:text-slate-300 text-xs sm:text-sm mt-2">
+                            Papan pemuka pembelajaran interaktif berasaskan Bootstrap 5 dengan teks gradient dan kad modul.
+                        </p>
+                    </div>
+                    <div class="flex flex-wrap gap-2 text-[11px] font-bold">
+                        <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300">Bootstrap 5</span>
+                        <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300">CSS Variables</span>
+                    </div>
+                    <button onclick="openModal('Portal Pembelajaran Kexpert', 'Rekaan UI responsif dengan Bootstrap 5 yang menampilkan variasi gradient text, susunan grid fleksibel, dan pengurusan tema dinamik.')" class="w-full py-2.5 rounded-xl bg-purple-500 hover:bg-purple-600 text-white font-bold text-xs transition-all shadow">
+                        Lihat Perincian Projek
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SECTION 6: CONTACT SECTION -->
+    <section id="contact" class="py-20 px-4 sm:px-8 max-w-7xl mx-auto relative z-10">
+        <div class="glass-card rounded-3xl p-8 sm:p-12 shadow-2xl border border-slate-200 dark:border-slate-800 grid grid-cols-1 lg:grid-cols-12 gap-10">
+            
+            <!-- Left Info -->
+            <div class="lg:col-span-5 flex flex-col justify-between space-y-6">
+                <div>
+                    <span class="px-4 py-1.5 rounded-full bg-amber-100 dark:bg-amber-900/40 text-amber-800 dark:text-amber-300 text-xs font-bold uppercase tracking-wider">Mari Bekerjasama</span>
+                    <h2 class="heading-font text-3xl sm:text-5xl font-extrabold mt-3 gradient-text-sunset">Hubungi Kexpert</h2>
+                    <p class="text-slate-600 dark:text-slate-300 text-sm mt-3 leading-relaxed">
+                        Mempunyai idea untuk projek web, kolaborasi cerita kanak-kanak, atau ingin menyapa? Hantarkan mesej anda di sini!
+                    </p>
+                </div>
+
+                <!-- Contact Pills -->
+                <div class="space-y-4">
+                    <div class="flex items-center gap-4 p-4 rounded-2xl bg-amber-50 dark:bg-slate-800/80 border border-amber-200/50 dark:border-slate-700">
+                        <div class="w-12 h-12 rounded-xl bg-amber-500 text-white flex items-center justify-center text-xl shadow">
+                            <i class="fa-solid fa-envelope"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-slate-500 dark:text-slate-400">Emel Utama</p>
+                            <p class="font-bold text-slate-800 dark:text-white text-sm sm:text-base">kexpert.kidjoy@gmail.com</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-4 p-4 rounded-2xl bg-amber-50 dark:bg-slate-800/80 border border-amber-200/50 dark:border-slate-700">
+                        <div class="w-12 h-12 rounded-xl bg-slate-900 text-white flex items-center justify-center text-xl shadow">
+                            <i class="fa-brands fa-github"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-slate-500 dark:text-slate-400">GitHub Profile</p>
+                            <p class="font-bold text-slate-800 dark:text-white text-sm sm:text-base">github.com/alphacodered</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-xs text-slate-500 dark:text-slate-400">
+                    &copy; 2026 Kexpert (KidJoy) - Hak Cipta Terpelihara.
+                </div>
+            </div>
+
+            <!-- Right Interactive Form -->
+            <div class="lg:col-span-7 bg-white dark:bg-slate-800 p-6 sm:p-8 rounded-2xl shadow-lg border border-slate-100 dark:border-slate-700">
+                <form id="contactForm" onsubmit="handleFormSubmit(event)" class="space-y-5">
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-2">Nama Anda</label>
+                        <input type="text" id="formName" required placeholder="Contoh: Adik Ali / Cikgu Siti" class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-white focus:outline-none focus:border-amber-500 transition-colors text-sm">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-2">Alamat Emel</label>
+                        <input type="email" id="formEmail" required placeholder="nama@contoh.com" class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-white focus:outline-none focus:border-amber-500 transition-colors text-sm">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-2">Mesej / Cadangan</label>
+                        <textarea id="formMessage" rows="4" required placeholder="Tuliskan mesej anda untuk Kexpert di sini..." class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-white focus:outline-none focus:border-amber-500 transition-colors text-sm"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-ripple w-full py-3.5 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 text-white font-bold text-sm shadow-lg shadow-orange-500/30 hover:scale-[1.02] active:scale-98 transition-all flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-paper-plane"></i>
+                        <span>Hantar Mesej Interaktif</span>
+                    </button>
+                </form>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- MODAL POPUP FOR DETAILS -->
+    <div id="projectModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+        <div class="glass-card bg-white dark:bg-slate-800 max-w-lg w-full rounded-3xl p-6 sm:p-8 shadow-2xl border border-slate-200 dark:border-slate-700 relative animate-float">
+            <button onclick="closeModal()" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 flex items-center justify-center hover:bg-red-500 hover:text-white transition-all">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <h3 id="modalTitle" class="heading-font text-2xl font-bold text-slate-800 dark:text-white mb-3">Tajuk Projek</h3>
+            <p id="modalDesc" class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed mb-6">Penerangan ringkas...</p>
+            <button onclick="closeModal()" class="w-full py-2.5 rounded-xl bg-amber-500 text-white font-bold text-xs shadow">Tutup Mod</button>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+    <!-- JAVASCRIPT LOGIC & INTERACTIVITY -->
+    <script>
+        /* ----------------------------------------------------
+           1. SOUND EFFECTS & THEME LOGIC
+        ---------------------------------------------------- */
+        let soundEnabled = true;
+
+        function playClickSound() {
+            if (!soundEnabled) return;
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(587.33, ctx.currentTime); // D5
+                osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.1); // A5
+                gain.gain.setValueAtTime(0.15, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.1);
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start();
+                osc.stop(ctx.currentTime + 0.1);
+            } catch (e) {}
+        }
+
+        function toggleSoundEffect() {
+            soundEnabled = !soundEnabled;
+            const icon = document.getElementById('soundIcon');
+            if (soundEnabled) {
+                icon.className = 'fa-solid fa-volume-high';
+                showToast('Kesan Bunyi: Dihidupkan 🔊');
+            } else {
+                icon.className = 'fa-solid fa-volume-xmark';
+                showToast('Kesan Bunyi: Dimatikan 🔇');
+            }
+        }
+
+        function toggleTheme() {
+            playClickSound();
+            const html = document.documentElement;
+            const themeIcon = document.getElementById('themeIcon');
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                themeIcon.className = 'fa-solid fa-sun';
+                showToast('Tema Ceria Terang Diaktifkan ☀️');
+            } else {
+                html.classList.add('dark');
+                themeIcon.className = 'fa-solid fa-moon';
+                showToast('Tema Cyber Kid Diaktifkan 🌙');
+            }
+        }
+
+        function toggleMobileMenu() {
+            playClickSound();
+            const drawer = document.getElementById('mobileDrawer');
+            drawer.classList.toggle('hidden');
+            drawer.classList.toggle('flex');
+        }
+
+        /* ----------------------------------------------------
+           2. TYPEWRITER EFFECT IN HERO
+        ---------------------------------------------------- */
+        const roles = [
+            "Web Developer",
+            "Interactive Storyteller",
+            "UI/UX Craftsman for Kids",
+            "JS Logic Explorer"
+        ];
+        let roleIdx = 0;
+        let charIdx = 0;
+        let isDeleting = false;
+
+        function typeEffect() {
+            const currentRole = roles[roleIdx];
+            const target = document.getElementById('typewriterText');
+            
+            if (isDeleting) {
+                target.textContent = currentRole.substring(0, charIdx - 1);
+                charIdx--;
+            } else {
+                target.textContent = currentRole.substring(0, charIdx + 1);
+                charIdx++;
+            }
+
+            let typeSpeed = isDeleting ? 60 : 120;
+
+            if (!isDeleting && charIdx === currentRole.length) {
+                typeSpeed = 2000; // Pause at top
+                isDeleting = true;
+            } else if (isDeleting && charIdx === 0) {
+                isDeleting = false;
+                roleIdx = (roleIdx + 1) % roles.length;
+                typeSpeed = 500;
+            }
+
+            setTimeout(typeEffect, typeSpeed);
+        }
+
+        /* ----------------------------------------------------
+           3. INTERACTIVE STORY CORNER (Sang Kancil & Sang Buaya)
+        ---------------------------------------------------- */
+        let currentPart = 1;
+        let currentLang = 'ms';
+        let currentSceneIdx = 0;
+
+        const storyData = {
+            1: {
+                titleMs: "Part 1: The Clever Mouse Deer and the Silly Crocodiles",
+                titleEn: "Part 1: The Clever Mouse Deer and the Silly Crocodiles",
+                scenes: [
+                    {
+                        img: "https://placehold.co/600x400/FF5722/FFF?text=Kancil+At+Riverbank",
+                        ms: "Pada suatu hari, Sang Kancil mahu menyeberangi sungai untuk mencari buah-buahan manis di seberang. Namun, sungai itu dipenuhi oleh buaya-buaya yang sangat lapar.",
+                        en: "Once upon a time, Sang Kancil wanted to cross a wide river to get sweet fruits on the other side. However, the river was infested with desperately hungry crocodiles.",
+                        dialogue: "Sang Kancil: 'Aku kena guna akal fikiran untuk menyeberang sungai ini dengan selamat!'"
+                    },
+                    {
+                        img: "https://placehold.co/600x400/4CAF50/FFF?text=Crocodiles+Line+Up",
+                        ms: "Sang Kancil memanggil buaya: 'Raja Sulaiman menjemput semua penghuni rimba ke majlis kenduri! Berbarislah dari sini ke seberang supaya aku boleh mengira kamusemua!'",
+                        en: "Sang Kancil called out: 'King Solomon invites everyone to a grand feast! Line up across the river so I can count all of you!'",
+                        dialogue: "Sang Buaya: 'Betulkah Sang Kancil? Kami memang lapar! Kami berbaris sekarang!'"
+                    },
+                    {
+                        img: "https://placehold.co/600x400/FFB800/000?text=Kancil+Crossing+Success",
+                        ms: "Sang Kancil melompat atas badan buaya sambil mengira: 'Satu, dua, tiga lekuk, jantan betina aku ketuk!' Tiba di seberang, Kancil ketawa gembira kerana berjaya menipu buaya.",
+                        en: "Sang Kancil hopped on their backs counting: 'One, two, three steps, male and female I tap your heads!' Reaching the bank, he laughed out loud at the tricked crocs.",
+                        dialogue: "Sang Kancil: 'Hahaha! Ada enam ekor buaya bodoh. Majlis kenduri itu sudah minggu lepas!'"
+                    }
+                ]
+            },
+            2: {
+                titleMs: "Part 2: Pembalasan Dendam & Dusun Buah Buaya",
+                titleEn: "Part 2: The Revenge & The Crocodile Fruit Orchard",
+                scenes: [
+                    {
+                        img: "https://placehold.co/600x400/9C27B0/FFF?text=Angry+Crocodiles+Waiting",
+                        ms: "Beberapa hari kemudian, Sang Buaya berasa sangat marah dan menanti Sang Kancil di tepi sungai untuk membalas dendam.",
+                        en: "A few days later, the crocodiles were still furious and waited by the riverbank to seek revenge on Sang Kancil.",
+                        dialogue: "Sang Buaya: 'Kali ini jangan percaya kata-kata manis Kancil! Sambar dia terus!'"
+                    },
+                    {
+                        img: "https://placehold.co/600x400/0288D1/FFF?text=Kancil+Tricks+Again",
+                        ms: "Sang Kancil tenang dan berkata: 'Jangan marah! Raja Rimba minta aku bawa kamu ke Dusun Buah Hulu Sungai. Ada rambutan dan pisang emas. Syaratnya tutup mata kamusemua!'",
+                        en: "Sang Kancil calmly said: 'Don't be angry! The Jungle King asked me to bring you to the Fruit Orchard. Close your eyes and line up!'",
+                        dialogue: "Sang Kancil: 'Tutup mata rapat-rapat supaya aku pimpin ke dusun buah!'"
+                    },
+                    {
+                        img: "https://placehold.co/600x400/E91E63/FFF?text=Kancil+Escapes+Safely",
+                        ms: "Semua buaya menutup mata rapat-rapat. Kancil melompat pantas ke tebing seberang dan naik ke atas pokok. Buaya sedar mereka ditipu sekali lagi!",
+                        en: "All crocodiles closed their eyes tightly. Kancil swiftly hopped across to the other bank and climbed a tree. The crocs realized they were tricked again!",
+                        dialogue: "Sang Kancil: 'Mana ada dusun buah untuk buaya! Hahaha selamat tinggal!'"
+                    }
+                ]
+            }
+        };
+
+        function renderStory() {
+            const data = storyData[currentPart];
+            const scene = data.scenes[currentSceneIdx];
+
+            document.getElementById('storyDisplayTitle').textContent = currentLang === 'ms' ? data.titleMs : data.titleEn;
+            document.getElementById('storyBox').textContent = currentLang === 'ms' ? scene.ms : scene.en;
+            document.getElementById('storyImage').src = scene.img;
+            document.getElementById('storyCaption').textContent = currentLang === 'ms' ? scene.ms.substring(0, 70) + "..." : scene.en.substring(0, 70) + "...";
+            document.getElementById('dialogueQuote').textContent = scene.dialogue;
+            document.getElementById('sceneBadge').textContent = `Adegan ${currentSceneIdx + 1} / ${data.scenes.length}`;
+
+            // Render Dots
+            const dotsContainer = document.getElementById('sceneDots');
+            dotsContainer.innerHTML = '';
+            data.scenes.forEach((_, idx) => {
+                const dot = document.createElement('span');
+                dot.className = `w-3 h-3 rounded-full transition-all cursor-pointer ${idx === currentSceneIdx ? 'bg-amber-500 w-6' : 'bg-slate-300 dark:bg-slate-700'}`;
+                dot.onclick = () => { currentSceneIdx = idx; renderStory(); };
+                dotsContainer.appendChild(dot);
+            });
+        }
+
+        function switchStoryPart(part) {
+            playClickSound();
+            currentPart = part;
+            currentSceneIdx = 0;
+            
+            const btn1 = document.getElementById('part1Btn');
+            const btn2 = document.getElementById('part2Btn');
+
+            if (part === 1) {
+                btn1.className = "px-5 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all bg-amber-500 text-white shadow-md";
+                btn2.className = "px-5 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all text-slate-600 dark:text-slate-300 hover:text-amber-500";
+            } else {
+                btn2.className = "px-5 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all bg-amber-500 text-white shadow-md";
+                btn1.className = "px-5 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all text-slate-600 dark:text-slate-300 hover:text-amber-500";
+            }
+            renderStory();
+        }
+
+        function switchStoryLang(lang) {
+            playClickSound();
+            currentLang = lang;
+            const btnMs = document.getElementById('langMalayBtn');
+            const btnEn = document.getElementById('langEngBtn');
+
+            if (lang === 'ms') {
+                btnMs.className = "px-3 py-1.5 rounded-lg text-xs font-bold border-2 border-amber-500 bg-amber-500 text-white";
+                btnEn.className = "px-3 py-1.5 rounded-lg text-xs font-bold border-2 border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-amber-400";
+            } else {
+                btnEn.className = "px-3 py-1.5 rounded-lg text-xs font-bold border-2 border-amber-500 bg-amber-500 text-white";
+                btnMs.className = "px-3 py-1.5 rounded-lg text-xs font-bold border-2 border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-amber-400";
+            }
+            renderStory();
+        }
+
+        function nextStoryScene() {
+            playClickSound();
+            const total = storyData[currentPart].scenes.length;
+            currentSceneIdx = (currentSceneIdx + 1) % total;
+            renderStory();
+        }
+
+        function prevStoryScene() {
+            playClickSound();
+            const total = storyData[currentPart].scenes.length;
+            currentSceneIdx = (currentSceneIdx - 1 + total) % total;
+            renderStory();
+        }
+
+        function speakStoryText() {
+            playClickSound();
+            const text = document.getElementById('storyBox').textContent;
+            showToast('🔊 Membaca Teks: ' + text.substring(0, 35) + '...');
+        }
+
+        /* ----------------------------------------------------
+           4. SKILLS FILTER & DYNAMIC CARDS
+        ---------------------------------------------------- */
+        const skillsData = [
+            { name: "HTML5 & Semantic Markup", cat: "frontend", level: "95%", icon: "fa-brands fa-html5", color: "from-orange-500 to-amber-500" },
+            { name: "CSS3 & Gradient Styling", cat: "frontend", level: "90%", icon: "fa-brands fa-css3-alt", color: "from-blue-500 to-cyan-400" },
+            { name: "JavaScript DOM & Logic", cat: "frontend", level: "88%", icon: "fa-brands fa-js", color: "from-amber-400 to-yellow-500" },
+            { name: "Bootstrap 5 Framework", cat: "frontend", level: "85%", icon: "fa-brands fa-bootstrap", color: "from-purple-600 to-pink-500" },
+            { name: "Git & GitHub (@alphacodered)", cat: "tools", level: "82%", icon: "fa-brands fa-github", color: "from-slate-700 to-slate-900" },
+            { name: "Visual Studio Code", cat: "tools", level: "92%", icon: "fa-solid fa-code", color: "from-sky-500 to-blue-600" },
+            { name: "StoryScript Naratif Murni", cat: "story", level: "98%", icon: "fa-solid fa-feather-pointed", color: "from-emerald-500 to-teal-400" },
+            { name: "Vector & Character Design", cat: "story", level: "80%", icon: "fa-solid fa-palette", color: "from-pink-500 to-rose-400" }
+        ];
+
+        function renderSkills(filter = 'all') {
+            const container = document.getElementById('skillsContainer');
+            container.innerHTML = '';
+
+            const filtered = filter === 'all' ? skillsData : skillsData.filter(s => s.cat === filter);
+
+            filtered.forEach(skill => {
+                const card = document.createElement('div');
+                card.className = "glass-card rounded-2xl p-5 shadow-md border border-slate-200 dark:border-slate-800 flex flex-col justify-between hover:scale-105 transition-all duration-300";
+                card.innerHTML = `
+                    <div class="flex items-center gap-4 mb-3">
+                        <div class="w-12 h-12 rounded-xl bg-gradient-to-tr ${skill.color} text-white flex items-center justify-center text-xl shadow">
+                            <i class="${skill.icon}"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-slate-800 dark:text-white text-base">${skill.name}</h4>
+                            <span class="text-xs text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider">${skill.cat}</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-xs font-bold mb-1">
+                            <span>Tahap Penguasaan</span>
+                            <span class="text-amber-500">${skill.level}</span>
+                        </div>
+                        <div class="w-full h-2.5 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden">
+                            <div class="h-full rounded-full bg-gradient-to-r ${skill.color} transition-all duration-1000" style="width: ${skill.level}"></div>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function filterSkills(cat) {
+            playClickSound();
+            renderSkills(cat);
+        }
+
+        /* ----------------------------------------------------
+           5. JS PLAYGROUND: KANCIL RIVER PUZZLE GAME
+        ---------------------------------------------------- */
+        let gameTargetSeq = [1, 2, 3, 4, 5];
+        let currentStep = 0;
+        let crocItems = [];
+
+        function initRiverPuzzle() {
+            currentStep = 0;
+            const container = document.getElementById('crocRiverRow');
+            const statusBox = document.getElementById('gameStatus');
+            container.innerHTML = '';
+            statusBox.textContent = "Klik pada buaya mengikut urutan nombor (1 hingga 5)!";
+            statusBox.className = "bg-white/90 dark:bg-slate-800/90 px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold text-amber-600 dark:text-amber-400 shadow";
+
+            // Shuffle crocs
+            crocItems = [1, 2, 3, 4, 5].sort(() => Math.random() - 0.5);
+
+            crocItems.forEach((num) => {
+                const crocBtn = document.createElement('button');
+                crocBtn.id = `croc-${num}`;
+                crocBtn.onclick = () => handleCrocClick(num);
+                crocBtn.className = "w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br from-emerald-500 to-green-600 text-white font-extrabold text-xl sm:text-2xl shadow-lg border-2 border-emerald-300 hover:scale-110 active:scale-95 transition-all flex flex-col items-center justify-center gap-1";
+                crocBtn.innerHTML = `
+                    <i class="fa-solid fa-dragon text-sm opacity-80"></i>
+                    <span>${num}</span>
+                `;
+                container.appendChild(crocBtn);
+            });
+        }
+
+        function handleCrocClick(num) {
+            playClickSound();
+            const expected = gameTargetSeq[currentStep];
+            const crocBtn = document.getElementById(`croc-${num}`);
+            const statusBox = document.getElementById('gameStatus');
+
+            if (num === expected) {
+                // Correct step!
+                crocBtn.className = "w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-amber-400 text-slate-900 font-extrabold text-xl sm:text-2xl shadow-xl border-4 border-amber-200 scale-105 transition-all flex flex-col items-center justify-center gap-1 animate-bounce";
+                crocBtn.disabled = true;
+                currentStep++;
+
+                if (currentStep === gameTargetSeq.length) {
+                    statusBox.textContent = "🎉 SYABAS! Sang Kancil berjaya menyeberangi sungai dengan selamat!";
+                    statusBox.className = "bg-emerald-500 text-white px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold shadow animate-pulse";
+                    showToast('🏆 Tahniah! Anda menyelesaikan teka-teki Kancil!');
+                } else {
+                    statusBox.textContent = `Bagus! Teruskan dengan nombor ${gameTargetSeq[currentStep]}!`;
+                }
+            } else {
+                // Wrong step!
+                statusBox.textContent = `❌ Ops! Nombor salah. Sila tekan nombor ${expected}!`;
+                statusBox.className = "bg-red-500 text-white px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold shadow";
+            }
+        }
+
+        /* ----------------------------------------------------
+           6. UTILITIES: TOASTS, MODALS & CLIPBOARD
+        ---------------------------------------------------- */
+        function showToast(msg) {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = "px-4 py-3 rounded-2xl bg-slate-900 text-white dark:bg-amber-400 dark:text-slate-900 font-bold text-xs sm:text-sm shadow-xl flex items-center gap-2 transition-all duration-300 transform translate-y-2";
+            toast.innerHTML = `<i class="fa-solid fa-circle-check text-amber-400 dark:text-slate-900"></i> <span>${msg}</span>`;
+            
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateY(10px)';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        function copyToClipboard(text, successMsg) {
+            playClickSound();
+            // Fallback execCommand for iframe safety
+            const tempInput = document.createElement('input');
+            tempInput.value = text;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+            showToast(successMsg);
+        }
+
+        function openModal(title, desc) {
+            playClickSound();
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalDesc').textContent = desc;
+            document.getElementById('projectModal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            playClickSound();
+            document.getElementById('projectModal').classList.add('hidden');
+        }
+
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            playClickSound();
+            const name = document.getElementById('formName').value;
+            showToast(`Terima kasih ${name}! Mesej anda berjaya dihantar ke Kexpert.`);
+            document.getElementById('contactForm').reset();
+        }
+
+        /* ----------------------------------------------------
+           7. BACKGROUND CANVAS PARTICLES ANIMATION
+        ---------------------------------------------------- */
+        const canvas = document.getElementById('bgCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 4 + 1;
+                this.speedX = Math.random() * 0.6 - 0.3;
+                this.speedY = Math.random() * 0.6 - 0.3;
+                this.color = ['#FFB800', '#FF5722', '#0288D1', '#9C27B0'][Math.floor(Math.random() * 4)];
+                this.alpha = Math.random() * 0.4 + 0.1;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                if (this.x < 0) this.x = canvas.width;
+                if (this.x > canvas.width) this.x = 0;
+                if (this.y < 0) this.y = canvas.height;
+                if (this.y > canvas.height) this.y = 0;
+            }
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.alpha;
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            const count = Math.min(Math.floor(window.innerWidth / 20), 40);
+            for (let i = 0; i < count; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+
+        /* ----------------------------------------------------
+           INITIALIZATION ON WINDOW LOAD
+        ---------------------------------------------------- */
+        window.onload = function() {
+            resizeCanvas();
+            initParticles();
+            animateParticles();
+            typeEffect();
+            renderStory();
+            renderSkills('all');
+            initRiverPuzzle();
+
+            window.addEventListener('resize', () => {
+                resizeCanvas();
+                initParticles();
+            });
+        };
+    </script>
+</body>
+</html>
